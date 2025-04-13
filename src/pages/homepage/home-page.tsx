@@ -1,15 +1,10 @@
 import { Link } from 'react-router-dom'
 
-import { Button } from '@/components/ui/button'
-
-import { cn } from '@/lib/utils'
-import { Popover, PopoverTrigger, PopoverContent } from '@radix-ui/react-popover'
-
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useExpand, useWebApp } from '@vkruglikov/react-telegram-web-app'
 
 import bgStart from '@/assets/imgs/bg_home_page.webp'
-import info from '@/assets/imgs/info.svg'
+
 import bird from '@/assets/imgs/bird.svg'
 import { useGetLeaders } from '@/utils/api/hooks/user/use-get-leaders'
 import TableRang from './ui/table-rang/table-rang'
@@ -58,11 +53,8 @@ export const HomePage = () => {
   }
 
   return (
-    <div
-      className={`table-rang overflow-y-auto' bg-red relative flex h-screen w-full max-w-md flex-1 flex-col bg-indigo-950 shadow-lg`}
-    >
+    <>
       <div
-        className='h-min-[100vh] relative z-30 flex flex-1 flex-col px-5'
         style={{
           height: '100dvh',
           width: '100vw',
@@ -73,50 +65,52 @@ export const HomePage = () => {
           backgroundRepeat: 'no-repeat',
         }}
       ></div>
-      {/* Game header */}
+      <div
+        style={{
+          position: 'relative',
+          backgroundColor: 'transparent',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          boxShadow: 'none',
+        }}
+        className={`table-rang overflow-y-auto' bg-red relative flex h-screen w-full max-w-md flex-1 flex-col bg-indigo-950 shadow-lg`}
+      >
+        {/* Game header */}
 
-      <div className='h-min-[100vh] relative z-30 flex flex-1 flex-col px-5' style={{ backgroundColor: 'transparent' }}>
-        <div className={`flex justify-between ${isMobile ? 'mt-20' : 'mt-11'} mb-12}`}>
-          <div className='h-10 w-10'>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant={'fit'} size={'fit'}>
-                  <img src={info} alt={''} width={52} height={52} />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className={cn()} align='start'>
-                {isMobile ? 'Для управления жми на экран' : 'Для управления жми пробел'}
-              </PopoverContent>
-            </Popover>
-          </div>
-          <Link to={'https://www.kp.ru/'}>
-            <img src={bird} alt={''} width={52} height={52} />
-          </Link>
-        </div>
-        <h1
-          className='text-center text-[60px] leading-none text-white'
-          style={{
-            marginBottom: '60px',
-            fontFamily: 'futurespore_cyrillicregular',
-          }}
+        <div
+          className='h-min-[100vh] relative z-30 flex flex-1 flex-col px-5'
+          style={{ position: 'relative', backgroundColor: 'transparent', left: '50%', transform: 'translateX(-50%)' }}
         >
-          Звездный рейс с <Link to={'https://www.kp.ru/'}>KP.RU </Link>
-        </h1>
-        <div className='mb-5'>
-          <label
-            htmlFor='leaderSearch'
-            className='mb-2 block'
+          <div className={`flex justify-between ${isMobile ? 'mt-20' : 'mt-11'} mb-12}`}>
+            <div className='h-10 w-10'></div>
+            <Link to={'https://www.kp.ru/'}>
+              <img src={bird} alt={''} width={52} height={52} />
+            </Link>
+          </div>
+          <h1
+            className='text-center text-[60px] leading-none text-white'
             style={{
-              color: 'white',
+              marginBottom: '60px',
               fontFamily: 'futurespore_cyrillicregular',
             }}
           >
-            Поиск по имени
-          </label>
-          <Input id='leaderSearch' onChange={(event) => handleOnChange(event)} placeholder='Введите имя' />
-        </div>
+            Звездный рейс с <Link to={'https://www.kp.ru/'}>KP.RU </Link>
+          </h1>
+          <div className='mb-5'>
+            <label
+              htmlFor='leaderSearch'
+              className='mb-2 block'
+              style={{
+                color: 'white',
+                fontFamily: 'futurespore_cyrillicregular',
+              }}
+            >
+              Поиск по имени
+            </label>
+            <Input id='leaderSearch' onChange={(event) => handleOnChange(event)} placeholder='Введите имя' />
+          </div>
 
-        {/* <Button
+          {/* <Button
           size={'fit'}
           onClick={() => {
             // startGame()
@@ -131,13 +125,14 @@ export const HomePage = () => {
           НАЧАТЬ ИГРУ
         </Button> */}
 
-        {filteredLeaders && filteredLeaders.length > 0 && (
-          <>
-            <p className='mb-2 text-center font-bold uppercase leading-none text-white'>рейтинг игроков</p>
-            <TableRang leaders={filteredLeaders} />
-          </>
-        )}
+          {filteredLeaders && filteredLeaders.length > 0 && (
+            <>
+              <p className='mb-2 text-center font-bold uppercase leading-none text-white'>рейтинг игроков</p>
+              <TableRang leaders={filteredLeaders} />
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
