@@ -127,6 +127,13 @@ body {
   }
 }
 
+.text-textColor-secondary {
+  color: var(--mauve);
+}
+.bg-row {
+  background: var(--haiti);
+}
+
 .background-gradient {
   background: linear-gradient(to right, var(--haiti), var(--studio));
 }

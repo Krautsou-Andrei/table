@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Popover, PopoverTrigger, PopoverContent } from '@radix-ui/react-popover'
 
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useExpand, useWebApp } from '@vkruglikov/react-telegram-web-app'
 
 import bgStart from '@/assets/imgs/bg_home_page.webp'
@@ -13,14 +13,25 @@ import info from '@/assets/imgs/info.svg'
 import bird from '@/assets/imgs/bird.svg'
 import { useGetLeaders } from '@/utils/api/hooks/user/use-get-leaders'
 import TableRang from './ui/table-rang/table-rang'
+import { Leader } from '@/types/api'
+import { Input } from '@/components/ui/input'
 
 export const HomePage = () => {
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
   const WebApp = useWebApp()
   const [_isExpanded, expand] = useExpand()
 
+  const [allLeaders, setAllLeaders] = useState<Leader[]>([])
+  const [filteredLeaders, setFilteredLeaders] = useState<Leader[]>([])
+
   const { data: leaders } = useGetLeaders()
-  console.log('leaders', leaders)
+
+  useEffect(() => {
+    if (leaders) {
+      setAllLeaders(leaders)
+      setFilteredLeaders(leaders) // Устанавливаем начальное состояние для отфильтрованных лидеров
+    }
+  }, [leaders])
 
   useEffect(() => {
     expand()
@@ -37,20 +48,34 @@ export const HomePage = () => {
     }
   }, [])
 
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value.toLocaleLowerCase()
+
+    const filtered = allLeaders.filter((item) => item.username.toLocaleLowerCase().includes(value))
+
+    setFilteredLeaders(filtered)
+    console.log('Filtered leaders:', filtered)
+  }
+
   return (
     <div
       className={`table-rang overflow-y-auto' bg-red relative flex h-screen w-full max-w-md flex-1 flex-col bg-indigo-950 shadow-lg`}
     >
-      {/* Game header */}
-
       <div
         className='h-min-[100vh] relative z-30 flex flex-1 flex-col px-5'
         style={{
+          height: '100dvh',
+          width: '100vw',
+          position: 'fixed',
+          top: '0',
           backgroundImage: `url(${bgStart})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
         }}
-      >
+      ></div>
+      {/* Game header */}
+
+      <div className='h-min-[100vh] relative z-30 flex flex-1 flex-col px-5' style={{ backgroundColor: 'transparent' }}>
         <div className={`flex justify-between ${isMobile ? 'mt-20' : 'mt-11'} mb-12}`}>
           <div className='h-10 w-10'>
             <Popover>
@@ -77,7 +102,21 @@ export const HomePage = () => {
         >
           Звездный рейс с <Link to={'https://www.kp.ru/'}>KP.RU </Link>
         </h1>
-        <Button
+        <div className='mb-5'>
+          <label
+            htmlFor='leaderSearch'
+            className='mb-2 block'
+            style={{
+              color: 'white',
+              fontFamily: 'futurespore_cyrillicregular',
+            }}
+          >
+            Поиск по имени
+          </label>
+          <Input id='leaderSearch' onChange={(event) => handleOnChange(event)} placeholder='Введите имя' />
+        </div>
+
+        {/* <Button
           size={'fit'}
           onClick={() => {
             // startGame()
@@ -90,12 +129,12 @@ export const HomePage = () => {
           }}
         >
           НАЧАТЬ ИГРУ
-        </Button>
+        </Button> */}
 
-        {leaders && leaders.length > 0 && (
+        {filteredLeaders && filteredLeaders.length > 0 && (
           <>
             <p className='mb-2 text-center font-bold uppercase leading-none text-white'>рейтинг игроков</p>
-            <TableRang leaders={leaders} />
+            <TableRang leaders={filteredLeaders} />
           </>
         )}
       </div>
