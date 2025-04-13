@@ -1,0 +1,16 @@
+export const enum QUERY_KEYS {
+  LEADERS = 'leaders',
+  ALL_USERS = 'allUsers',
+  ALL_USERS_EVENT = 'allUsersEvent',
+  GET_CITIES = 'getCities',
+  GET_CITY = 'getCity',
+  GET_EVENT = 'getEvent',
+  GET_EVENTS = 'getEvents',
+  GET_EVENTS_USER = 'getEventsUser',
+  GET_ORGANIZED_EVENTS = 'getOrganizedEvents',
+  LOGIN = 'login',
+  ME = 'me',
+  MESSAGES = 'messages',
+  SERVICES = 'services',
+  USER = 'user',
+}
