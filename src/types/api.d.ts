@@ -25,11 +25,10 @@ export interface GetLeaderParams {
 export interface Leader {
   id: number
   username: string
+  telegramId: string
   score: number
   place: number
 }
-
-
 
 export interface PaginationMeta {
   total: number

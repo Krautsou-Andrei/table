@@ -34,7 +34,7 @@ export default function TableRow({ number, isUser, score, contact }: TableRowPro
       <div
         className={`${
           isUser ? 'text-textColor-third' : 'text-textColor-secondary'
-        } w-[70px] overflow-hidden text-ellipsis text-[14px] font-bold leading-none`}
+        } w-[120px] overflow-hidden text-ellipsis text-[14px] font-bold leading-none`}
         style={{ fontFamily: 'Montserrat, sans-serif' }}
       >
         {`@${contact}`}

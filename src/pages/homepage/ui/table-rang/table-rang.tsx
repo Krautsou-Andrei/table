@@ -14,7 +14,12 @@ export default function TableRang({ leaders }: TableRangProps) {
           allUsers.map((user, index) => {
             return (
               <div key={user.id}>
-                <TableRow number={index + 1} isUser={false} score={user.score} contact={user.username} />
+                <TableRow
+                  number={index + 1}
+                  isUser={false}
+                  score={user.score}
+                  contact={user.username || user.telegramId}
+                />
               </div>
             )
           })
